@@ -2,12 +2,18 @@ package entidades;
 
 import java.util.List;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="Calendario")
 public class Calendario {
 	
+	@Id
+	@GeneratedValue
 	private int id;
 	private String nombre;
 	
-	List<Reunion> reuniones;
+	private List<Reunion> reuniones;
 	
 	public Calendario() {}
 	

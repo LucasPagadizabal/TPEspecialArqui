@@ -2,7 +2,10 @@ package entidades;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.*;
 
+@Entity
+@Table(name="Reunion")
 public class Reunion {
 	
 	private int id;

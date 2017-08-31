@@ -2,14 +2,21 @@ package entidades;
 
 import java.util.List;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="Usuario")
 public class Usuario {
 	
+	@Id
+	@GeneratedValue
 	private int dni;
 	
 	private String nombre;
 	private String apellido;
 	
-	List<Calendario> calendarios;
+	@ManyToOne
+	private List<Calendario> calendarios;
 	
 	public Usuario() {}
 	
@@ -42,6 +49,4 @@ public class Usuario {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	
-	
 }

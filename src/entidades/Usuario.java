@@ -49,4 +49,8 @@ public class Usuario {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+	
+	public void addCalendario(String nombre) {
+		calendarios.add(new Calendario(nombre));
+	}
 }

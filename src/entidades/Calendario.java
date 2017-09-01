@@ -13,6 +13,7 @@ public class Calendario {
 	private int id;
 	private String nombre;
 	
+	@OneToOne(mappedBy="Reunion")
 	private List<Reunion> reuniones;
 	
 	public Calendario() {}

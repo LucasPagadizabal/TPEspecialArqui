@@ -8,18 +8,26 @@ import javax.persistence.*;
 @Table(name="Reunion")
 public class Reunion {
 	
-	private int id;
 	
+	@Id
+	@GeneratedValue
+	private int id;
 	private Date fecha;
-	private String lugar;
+	private Sala sala;
+	
+	@OneToOne
+	private Calendario calendario;
+	
 	private List<Usuario> invitados;
 	
 	public Reunion() {}
 	
-	public Reunion(Date fecha,String lugar) {
+	public Reunion(Date fecha,Sala lugar,Calendario c) {
 		this.fecha = fecha;
-		this.lugar = lugar;
+		this.sala = lugar;
+		this.calendario = c;
 	}
+	
 	
 	public void addInvitados() {
 		

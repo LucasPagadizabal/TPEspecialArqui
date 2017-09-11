@@ -1,4 +1,4 @@
-package entidades;
+	package entidades;
 
 import java.util.List;
 
@@ -13,7 +13,10 @@ public class Calendario {
 	private int id;
 	private String nombre;
 	
-	@OneToOne(mappedBy="Reunion")
+	@ManyToOne
+	private Usuario usuario;
+	
+	@ManyToMany(mappedBy="calendarios")
 	private List<Reunion> reuniones;
 	
 	public Calendario() {}

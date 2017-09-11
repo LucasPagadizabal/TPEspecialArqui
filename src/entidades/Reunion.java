@@ -15,9 +15,10 @@ public class Reunion {
 	private Date fecha;
 	private Sala sala;
 	
-	@OneToOne
-	private Calendario calendario;
+	@ManyToMany
+	private Calendario calendarios;
 	
+	@ManyToMany
 	private List<Usuario> invitados;
 	
 	public Reunion() {}

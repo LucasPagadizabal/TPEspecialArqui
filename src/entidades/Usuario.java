@@ -15,8 +15,11 @@ public class Usuario {
 	private String nombre;
 	private String apellido;
 	
-	@ManyToOne
+	@OneToMany(mappedBy="usuario")
 	private List<Calendario> calendarios;
+	
+	@ManyToMany(mappedBy="invitados")
+	private List<Reunion>reuniones;
 	
 	public Usuario() {}
 	

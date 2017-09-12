@@ -1,7 +1,6 @@
 package entidades;
 
 import java.util.List;
-
 import javax.persistence.*;
 
 @Entity
@@ -14,12 +13,6 @@ public class Usuario {
 	
 	private String nombre;
 	private String apellido;
-	
-	@OneToMany(mappedBy="usuario")
-	private List<Calendario> calendarios;
-	
-	@ManyToMany(mappedBy="invitados")
-	private List<Reunion>reuniones;
 	
 	public Usuario() {}
 	
@@ -51,9 +44,5 @@ public class Usuario {
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-	
-	public void addCalendario(String nombre) {
-		calendarios.add(new Calendario(nombre));
 	}
 }

@@ -14,6 +14,15 @@ public class Usuario {
 	private String nombre;
 	private String apellido;
 	
+	@ManyToMany
+	private List<Calendario>calendarios;
+	
+	@ManyToMany
+	private List<Reunion> reuniones;
+	
+//	@ManyToMany
+//	private List<Reunion>invitacionesPendientes;
+	
 	public Usuario() {}
 	
 	public Usuario(int dni,String nombre,String apellido) {

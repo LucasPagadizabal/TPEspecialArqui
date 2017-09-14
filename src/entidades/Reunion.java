@@ -34,12 +34,15 @@ public class Reunion {
 	public Reunion() {}
 	
 	public Reunion(Date fechaInicio,Date fechaFin,Sala lugar,Calendario calendario) {
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
-		this.lugar = lugar;
-		this.calendario = calendario;
-		this.invitados = new ArrayList<Usuario>();
-		this.invitaciones = new ArrayList<Notificacion>();
+		if(calendario.addReunion(this)) {//chequear que no se superpongan
+			this.fechaInicio = fechaInicio;
+			this.fechaFin = fechaFin;
+			this.lugar = lugar;
+			this.calendario = calendario;
+			this.invitados = new ArrayList<Usuario>();
+			this.invitaciones = new ArrayList<Notificacion>();
+		}
+		
 	}
 	
 	public boolean addInvitado(Usuario usuario) {

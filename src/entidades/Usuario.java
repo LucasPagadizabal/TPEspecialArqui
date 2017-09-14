@@ -4,9 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
+import org.hibernate.annotations.NamedQuery;
+
 @Entity
 @Table(name="Usuario")
+
+@NamedQuery(name="Usuario.BUSCAR_TODOS",query="SELECT u FROM Usuario u")
+@NamedQuery(name="Usuario.BUSCAR_USUARIO_BY_DNI",query ="SELECT u FROM Usuario u WHERE u.dni = ?1")
+
 public class Usuario {
+	
+	public static final String BUSCAR_TODOS = "Usuario.buscarTodos";
+	public static final String BUSCAR_USUARIO_BY_DNI = "Usuario.buscarUsuarioByDni";
 	
 	@Id
 	@GeneratedValue

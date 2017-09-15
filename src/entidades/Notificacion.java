@@ -9,9 +9,7 @@ public class Notificacion {
 	@Id
 	@GeneratedValue
 	private int id;
-	
-	private EstadoNotificacion estado;
-	
+		
 	@ManyToOne
 	private Usuario invitado;
 	
@@ -23,7 +21,6 @@ public class Notificacion {
 	public Notificacion(Usuario invitado,Reunion reunion) {
 		this.invitado = invitado;
 		this.reunion = reunion;
-		this.estado = EstadoNotificacion.PENDIENTE;
 	}
 
 	public int getId() {
@@ -44,14 +41,6 @@ public class Notificacion {
 
 	public void setReunion(Reunion reunion) {
 		this.reunion = reunion;
-	}
-	
-	public void aceptarNotificacion() {
-		this.estado = EstadoNotificacion.ACEPTADA;
-	}
-	
-	public void rechazarNotificacion() {
-		this.estado = EstadoNotificacion.RECHAZADA;
 	}
 	
 	public boolean equals(Notificacion noti) {

@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
@@ -25,26 +26,40 @@ public class Usuario {
 	private String apellido;
 	
 	//lista de calendarios propios
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.PERSIST)
 	private List<Calendario>calendarios;
-	
-	//lista de reuniones en la cuales fue invitado
-	@ManyToMany
-	private List<Reunion> reuniones;
 	
 	//notificaciones pendientes
 	@OneToMany(mappedBy="invitado")
 	private List<Notificacion> invitaciones;
 	
+	
 	public Usuario() {}
 	
-	public Usuario(int dni,String nombre,String apellido) {
-		this.dni = dni;
+	public Usuario(String nombre,String apellido) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.calendarios = new ArrayList<Calendario>();
-		this.reuniones = new ArrayList<Reunion>();
 		this.invitaciones = new ArrayList<Notificacion>();
+	}
+	
+	public List<Reunion> getReunionesByDay(Date day){
+		List<Reunion> result = new ArrayList<Reunion>();
+		
+		for (int i = 0; i < this.calendarios.size(); i++) {
+			result.addAll(this.calendarios.get(i).getReunionesByDay(day));
+		}
+		
+		return result;
+	}
+	public boolean addReunionByCalendario(Reunion reunion, Calendario calendario) {
+		//este metodo agrega una reunion a un calendario
+		//hay que chequear q no se superponga la reunion en el calendario dado
+		
+		if(this.calendarios.contains(calendario)) {
+				return calendario.addReunion(reunion);
+			}
+		return false;
 	}
 	
 	public boolean addCalendario(Calendario calendario) {
@@ -54,14 +69,7 @@ public class Usuario {
 	public boolean removeCalendario(Calendario calendario) {
 		return this.calendarios.remove(calendario);
 	}
-	
-	public boolean addReunionInvitacion(Reunion reunion) {//metodo para añadir reuniones invitadas
-		return this.reuniones.add(reunion);
-	}
-	
-	public boolean removeReunionInvitacion(Reunion reunion) {//metodo para remover reuniones invitadas
-		return this.reuniones.remove(reunion);
-	}
+
 	
 	public boolean addNotificacion(Notificacion notificacion) {
 		return this.invitaciones.add(notificacion);
@@ -70,15 +78,7 @@ public class Usuario {
 	public boolean removeNotificacion(Notificacion notificacion) {
 		return this.invitaciones.remove(notificacion);
 	}
-	
-	public void aceptarInvitacion(int idNoti) {
-		this.invitaciones.get(idNoti).aceptarNotificacion();
-	}
-	
-	public void rechazarInvitacion(int idNoti) {
-		this.invitaciones.get(idNoti).rechazarNotificacion();
-	}
-	
+
 	public boolean equals(Usuario usuario) {
 		return this.dni == usuario.getDni();
 	}

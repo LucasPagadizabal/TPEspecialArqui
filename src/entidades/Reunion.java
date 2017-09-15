@@ -8,64 +8,62 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="Reunion")
+//@NamedQuery(name="Reunion.BUSCAR_REUNIONES_BY_DATE",query="SELECT r FROM Reunion r WHERE ")
 
 public class Reunion {
-	
+
 	@Id
 	@GeneratedValue
 	private int id;
 	
 	private Date fechaInicio;
-	
+
 	private Date fechaFin;
-	
-	@ManyToOne
-	private Sala lugar;
-	
+
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	private Sala sala;
+
 	@ManyToOne
 	private Calendario calendario;
-	
-	@ManyToMany(mappedBy="reuniones")
+
+	@ManyToMany
 	private List<Usuario>invitados;
-	
-	@OneToMany(mappedBy="reunion")
-	private List<Notificacion>invitaciones;
-	
+
 	public Reunion() {}
-	
+
 	public Reunion(Date fechaInicio,Date fechaFin,Sala lugar,Calendario calendario) {
-		if(calendario.addReunion(this)) {//chequear que no se superpongan
+//		if(!calendario.superposicionReunion(fechaInicio, fechaFin)) {
 			this.fechaInicio = fechaInicio;
 			this.fechaFin = fechaFin;
-			this.lugar = lugar;
+			this.sala = lugar;
 			this.calendario = calendario;
 			this.invitados = new ArrayList<Usuario>();
-			this.invitaciones = new ArrayList<Notificacion>();
-		}
+			calendario.addReunion(this);
+//		}
 		
+	}
+	
+	public boolean mismoDia(Date day) {
+		return (this.fechaInicio.getYear() == day.getYear()) && (this.fechaInicio.getMonth() == day.getMonth()) && (this.fechaInicio.getDay() == day.getDay());
+	}
+	
+	public boolean superposicionHorarios(Date fechaI,Date fechaF) {
+		return ((fechaI.after(this.fechaInicio) && this.fechaFin.after(fechaI)) || (fechaI.after(this.fechaFin) && fechaF.after(this.fechaFin)));
 	}
 	
 	public boolean addInvitado(Usuario usuario) {
 		return this.invitados.add(usuario);
 	}
-	
+
 	public boolean removeInvitado(Usuario usuario) {
 		return this.invitados.remove(usuario);
 	}
-	
-	public boolean addNotificacion(Notificacion notificacion) {
-		return this.invitaciones.add(notificacion);
-	}
-	
-	public boolean removeNotificacion(Notificacion notificacion) {
-		return this.invitaciones.remove(notificacion);
-	}
-	
+
 	public boolean equals(Reunion reunion) {
 		return this.id == reunion.getId();
 	}
-	
-//	Getters and Setter
+
+	//	Getters and Setter
 	public int getId() {
 		return id;
 	}
@@ -87,11 +85,11 @@ public class Reunion {
 	}
 
 	public Sala getLugar() {
-		return lugar;
+		return sala;
 	}
 
 	public void setLugar(Sala lugar) {
-		this.lugar = lugar;
+		this.sala = lugar;
 	}
 
 	public Calendario getCalendario() {
@@ -105,9 +103,4 @@ public class Reunion {
 	public List<Usuario> getInvitados() {
 		return invitados;
 	}
-
-	public List<Notificacion> getInvitaciones() {
-		return invitaciones;
-	}
-	
 }

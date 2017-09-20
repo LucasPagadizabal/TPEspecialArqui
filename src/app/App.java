@@ -53,6 +53,13 @@ public class App {
 //		reuniones = Servicios.getReunionesByUserAndDay(4,day, em);
 //		System.out.println(reuniones.toString());
 		
+//		C.III
+//		Date day1 = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19).getTime();
+//		Date day2 = new GregorianCalendar(2017, Calendar.SEPTEMBER, 21).getTime();
+//
+//		List<Reunion> reuniones = new ArrayList<Reunion>();
+//		reuniones = Servicios.getReunionesEntreFechas(day1, day2, em);
+//		System.out.println(reuniones.toString());
 		
 //		C.IV
 //		Date newReunionInicio = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19,19,00).getTime();

@@ -6,14 +6,19 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.NamedQuery;
+
 @Entity
 @Table(name="Reunion")
+
 @NamedQuery(name=Reunion.BUSCAR_REUNIONES_BY_USER,query="SELECT r FROM Reunion r JOIN r.calendario.duenio user WHERE user.dni =?1")
+@NamedQuery(name=Reunion.BUSCAR_REUNIONES_BETWEEN_DATES,query="SELECT r FROM Reunion r WHERE r.fechaInicio BETWEEN ?1 AND ?2")
 
 
 public class Reunion {
 	
 	public static final String BUSCAR_REUNIONES_BY_USER = "Reunion.BuscarReunionesByUser";
+	public static final String BUSCAR_REUNIONES_BETWEEN_DATES = "Reunion.BuscarReunionesBetweenDates";
 	
 	@Id
 	@GeneratedValue

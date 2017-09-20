@@ -76,6 +76,16 @@ public class Servicios {
 		return result;
 	}
 	
+	public static List<Reunion> getReunionesEntreFechas(Date day1, Date day2, EntityManager em){
+		List<Reunion> result = new ArrayList<Reunion>();
+		
+		Query query = em.createNamedQuery(Reunion.BUSCAR_REUNIONES_BETWEEN_DATES);
+		query.setParameter(1, day1);
+		query.setParameter(2, day2);
+		result = query.getResultList();
+		return result;
+	}
+	
 	public static List<Reunion> getReunionesSuperpuestas(int dni,Date newIni,Date newFin,EntityManager em){
 		List<Reunion> result = new ArrayList<Reunion>();
 

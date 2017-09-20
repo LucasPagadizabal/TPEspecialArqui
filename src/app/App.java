@@ -39,20 +39,30 @@ public class App {
 		Date r1I = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 12, 00).getTime();
 		Date r1F = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 14, 00).getTime();	
 		
-		Servicios.createReunion(r1I, r1F, 1, 5, em);//si
+		Servicios.createReunion(r1I, r1F, 1, 5, em);
 		
-		Date r2I = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 13, 00).getTime();
+		Date r2I = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 15, 00).getTime();
 		Date r2F = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 18, 00).getTime();	
 		
-		Servicios.createReunion(r2I,r2F, 1, 5, em);//no xq se superpone
+		Servicios.createReunion(r2I,r2F, 1, 24, em);
 		
-		System.out.println(Servicios.getUserByDni(4, em).toString());
+//		C.I
+//		System.out.println(Servicios.getUserByDni(4, em).toString());
 		
+//		C.II
+//		Date day = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19).getTime();
 //		List<Reunion> reuniones = new ArrayList<Reunion>();
-//		reuniones = Servicios.getReunionesByUserAndDay(4, new Date(100, 12, 25, 10, 00, 00), em);
-//		
+//		reuniones = Servicios.getReunionesByUserAndDay(4,day, em);
 //		System.out.println(reuniones.toString());
 		
+		
+//		C.IV
+//		Date newReunionInicio = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19,19,00).getTime();
+//		Date newReunionFin =  new GregorianCalendar(2017, Calendar.SEPTEMBER, 19,20,00).getTime();
+//		List<Reunion> reuniones = new ArrayList<Reunion>();
+//		reuniones = Servicios.getReunionesSuperpuestas(4, newReunionInicio, newReunionFin, em);
+//		System.out.println(reuniones.toString());
+
 		em.close();
 		emf.close();
 	}

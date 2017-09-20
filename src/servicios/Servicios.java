@@ -41,12 +41,16 @@ public class Servicios {
 		if(!lugar.checkSuperPosicion(fechaInicio, fechaFin)){
 			if(!calendario.checkSuperPosicion(fechaInicio, fechaFin)){
 				Reunion reunion = new Reunion(fechaInicio,fechaFin,lugar,calendario);
+				calendario.addReunion(reunion);
+				lugar.addReunion(reunion);
 				em.persist(reunion);
+				em.persist(calendario);
+				em.persist(lugar);
 			}else {
-				System.out.println("Np calendario");
+				System.out.println("Superposicion de horarios en el calendario");//mensajes de error
 			}
 		}else {
-			System.out.println("No lugar");
+			System.out.println("Superposicion de horarios en el lugar");//mensajes de error
 		}
 		
 		em.getTransaction().commit();
@@ -60,9 +64,30 @@ public class Servicios {
 	}
 	
 	public static List<Reunion> getReunionesByUserAndDay(int dni,Date day,EntityManager em) {
-		Usuario user = Servicios.getUserByDni(dni, em);
-		List<Reunion> reuniones = new ArrayList<Reunion>();
-		reuniones = user.getReunionesByDay(day);
-		return reuniones;
+		Query query = em.createNamedQuery(Reunion.BUSCAR_REUNIONES_BY_USER);
+		query.setParameter(1, dni);
+		List<Reunion> result = query.getResultList();
+		
+		for (int i = 0; i < result.size(); i++) {
+			if(!result.get(i).mismoDia(day)) {
+				result.remove(i);
+			}
+		}
+		return result;
+	}
+	
+	public static List<Reunion> getReunionesSuperpuestas(int dni,Date newIni,Date newFin,EntityManager em){
+		List<Reunion> result = new ArrayList<Reunion>();
+
+		Query query = em.createNamedQuery(Reunion.BUSCAR_REUNIONES_BY_USER);
+		query.setParameter(1, dni);
+		List<Reunion> reunionesUser = query.getResultList();
+		
+		for (int i = 0; i < reunionesUser.size(); i++) {
+			if(reunionesUser.get(i).superposicionHorarios(newIni, newFin)) {
+				result.add(reunionesUser.get(i));
+			}
+		}
+		return result;
 	}
 }

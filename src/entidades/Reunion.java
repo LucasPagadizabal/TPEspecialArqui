@@ -8,10 +8,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="Reunion")
-//@NamedQuery(name="Reunion.BUSCAR_REUNIONES_BY_DATE",query="SELECT r FROM Reunion r WHERE ")
+@NamedQuery(name=Reunion.BUSCAR_REUNIONES_BY_USER,query="SELECT r FROM Reunion r JOIN r.calendario.duenio user WHERE user.dni =?1")
+
 
 public class Reunion {
-
+	
+	public static final String BUSCAR_REUNIONES_BY_USER = "Reunion.BuscarReunionesByUser";
+	
 	@Id
 	@GeneratedValue
 	private int id;
@@ -37,7 +40,6 @@ public class Reunion {
 			this.sala = lugar;
 			this.calendario = calendario;
 			this.invitados = new ArrayList<Usuario>();
-			calendario.addReunion(this);
 	}
 	
 	public boolean mismoDia(Date day) {
@@ -47,18 +49,14 @@ public class Reunion {
 	public boolean superposicionHorarios(Date nuevaI,Date nuevaF) {
 		
 		if(nuevaF.compareTo(this.fechaInicio)<=0){
-			System.out.println("1");
 			return false;//no se superpone
 			
 		}else if(nuevaF.compareTo(this.fechaFin)<=0) {
-			System.out.println("2");
 			return true;//se superpone!
 			
 		}else if(nuevaI.compareTo(this.fechaFin)<=0){
-			System.out.println("3");
 			return true;// se superpone
 		}else {
-			System.out.println("4");
 			return false;//no se superpone!
 		}
 	}

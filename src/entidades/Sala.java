@@ -29,20 +29,18 @@ public class Sala {
 		this.reuniones = new ArrayList<Reunion>();
 	}
 	
-	private boolean checkSuperPosicion(Date fechaI,Date fechaF) {
-		for (int i = 0; i < this.reuniones.size(); i++) {
-			if(this.reuniones.get(i).superposicionHorarios(fechaI, fechaF)) {
-				return true;
+	public boolean checkSuperPosicion(Date fechaI,Date fechaF) {
+		if(this.reuniones.size()>0) {
+			for (int i = 0; i < this.reuniones.size(); i++) {
+				if(this.reuniones.get(i).superposicionHorarios(fechaI, fechaF)) {
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 	public boolean addReunion(Reunion reunion) {
-		if(!this.checkSuperPosicion(reunion.getFechaInicio(), reunion.getFechaFin())) {
-			return this.reuniones.add(reunion);
-		}
-		//chequear que no se superpongan
-		return false;
+		return this.reuniones.add(reunion);
 	}
 	
 	public boolean equals(Sala sala) {

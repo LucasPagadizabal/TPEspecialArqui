@@ -10,8 +10,8 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @Table(name="Usuario")
 
-@NamedQuery(name="Usuario.BUSCAR_TODOS",query="SELECT u FROM Usuario u")
-@NamedQuery(name="Usuario.BUSCAR_USUARIO_BY_DNI",query ="SELECT u FROM Usuario u WHERE u.dni = ?1")
+@NamedQuery(name= Usuario.BUSCAR_TODOS,query="SELECT u FROM Usuario u")
+@NamedQuery(name= Usuario.BUSCAR_USUARIO_BY_DNI,query = "SELECT u FROM Usuario u WHERE u.dni = ?1")
 
 public class Usuario {
 	
@@ -33,6 +33,9 @@ public class Usuario {
 	@OneToMany(mappedBy="invitado")
 	private List<Notificacion> invitaciones;
 	
+	//reuniones a la que fui invitado
+	@ManyToMany
+	private List<Reunion>reunionesInvitado;
 	
 	public Usuario() {}
 	
@@ -53,9 +56,6 @@ public class Usuario {
 		return result;
 	}
 	public boolean addReunionByCalendario(Reunion reunion, Calendario calendario) {
-		//este metodo agrega una reunion a un calendario
-		//hay que chequear q no se superponga la reunion en el calendario dado
-		
 		if(this.calendarios.contains(calendario)) {
 				return calendario.addReunion(reunion);
 			}
@@ -81,6 +81,10 @@ public class Usuario {
 
 	public boolean equals(Usuario usuario) {
 		return this.dni == usuario.getDni();
+	}
+	
+	public String toString() {
+		return "DNI: "+this.dni+"   Nombre: "+this.nombre+"  Apellido: "+this.apellido;
 	}
 	
 //	Getters and Setters

@@ -17,7 +17,7 @@ public class Calendario {
 	@ManyToOne
 	private Usuario duenio;
 	
-	@OneToMany(cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="calendario",cascade=CascadeType.PERSIST)
 	private List<Reunion> reuniones;
 
 	public Calendario() {}
@@ -29,18 +29,18 @@ public class Calendario {
 	}
 	
 	public boolean addReunion(Reunion reunion) {
-		if(!this.checkSuperPosicion(reunion.getFechaInicio(), reunion.getFechaFin())) {
-			return this.reuniones.add(reunion);
-		}
-		return false;
+		return this.reuniones.add(reunion);
 	}
 	
-	private boolean checkSuperPosicion(Date fechaI, Date fechaF) {
-		for (int i = 0; i < this.reuniones.size(); i++) {
-			if(this.reuniones.get(i).superposicionHorarios(fechaI, fechaF)) {
-				return true;
+	public boolean checkSuperPosicion(Date fechaI, Date fechaF) {
+		if(this.reuniones.size()>0) {
+			for (int i = 0; i < this.reuniones.size(); i++) {
+				System.out.println("fi:"+fechaI+" ff:"+fechaF+" reunion:"+this.reuniones.get(i).getFechaInicio()+"-"+this.reuniones.get(i).getFechaFin());
+				if(this.reuniones.get(i).superposicionHorarios(fechaI, fechaF)) {
+					return true;
+				}
 			}
-		}
+		}	
 		return false;
 	}
 	

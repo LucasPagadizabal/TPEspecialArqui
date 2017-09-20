@@ -32,23 +32,35 @@ public class Reunion {
 	public Reunion() {}
 
 	public Reunion(Date fechaInicio,Date fechaFin,Sala lugar,Calendario calendario) {
-//		if(!calendario.superposicionReunion(fechaInicio, fechaFin)) {
 			this.fechaInicio = fechaInicio;
 			this.fechaFin = fechaFin;
 			this.sala = lugar;
 			this.calendario = calendario;
 			this.invitados = new ArrayList<Usuario>();
 			calendario.addReunion(this);
-//		}
-		
 	}
 	
 	public boolean mismoDia(Date day) {
 		return (this.fechaInicio.getYear() == day.getYear()) && (this.fechaInicio.getMonth() == day.getMonth()) && (this.fechaInicio.getDay() == day.getDay());
 	}
 	
-	public boolean superposicionHorarios(Date fechaI,Date fechaF) {
-		return ((fechaI.after(this.fechaInicio) && this.fechaFin.after(fechaI)) || (fechaI.after(this.fechaFin) && fechaF.after(this.fechaFin)));
+	public boolean superposicionHorarios(Date nuevaI,Date nuevaF) {
+		
+		if(nuevaF.compareTo(this.fechaInicio)<=0){
+			System.out.println("1");
+			return false;//no se superpone
+			
+		}else if(nuevaF.compareTo(this.fechaFin)<=0) {
+			System.out.println("2");
+			return true;//se superpone!
+			
+		}else if(nuevaI.compareTo(this.fechaFin)<=0){
+			System.out.println("3");
+			return true;// se superpone
+		}else {
+			System.out.println("4");
+			return false;//no se superpone!
+		}
 	}
 	
 	public boolean addInvitado(Usuario usuario) {

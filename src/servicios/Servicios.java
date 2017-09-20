@@ -11,13 +11,15 @@ public class Servicios {
 	public static void createUsuario(String nombre,String apellido,EntityManager em) {
 		em.getTransaction( ).begin( );	
 		Usuario user = new Usuario(nombre,apellido);
-		user.addCalendario(new Calendario("Mi Calendario",user));//Calendario por default
+		user.addCalendario(new Calendario("Mi Calendario "+user.getApellido(),user));//Calendario por default
 		em.persist(user);
 		em.getTransaction().commit();
 	}
 	
 	public static Usuario getUserByDni(int dni,EntityManager em) {
-		return em.find(Usuario.class, dni);
+		Query query = em.createNamedQuery(Usuario.BUSCAR_USUARIO_BY_DNI);
+		query.setParameter(1, dni);
+		return (Usuario) query.getSingleResult();
 	}
 	
 	public static void createCalendario(String nombreCalendario, int dniUser, EntityManager em) {
@@ -30,11 +32,23 @@ public class Servicios {
 	
 //	al crear una reunion hay que chequear si no se superponen fechas
 	public static void createReunion(Date fechaInicio,Date fechaFin,int idSala,int idCalendario,EntityManager em) {
+		//las reuniones solo pueden pertenecer a un solo calendario??
+		
 		em.getTransaction( ).begin();
-		Sala lugar = em.find(Sala.class, idSala);
-		Calendario calendario = em.find(Calendario.class, idCalendario);
-		Reunion reunion = new Reunion(fechaInicio,fechaFin,lugar,calendario);
-		em.persist(reunion);
+		Sala lugar = em.find(Sala.class, idSala);//chequear q no se superponga
+		Calendario calendario = em.find(Calendario.class, idCalendario);//chequear q no se superoponga con otra reuniones
+		
+		if(!lugar.checkSuperPosicion(fechaInicio, fechaFin)){
+			if(!calendario.checkSuperPosicion(fechaInicio, fechaFin)){
+				Reunion reunion = new Reunion(fechaInicio,fechaFin,lugar,calendario);
+				em.persist(reunion);
+			}else {
+				System.out.println("Np calendario");
+			}
+		}else {
+			System.out.println("No lugar");
+		}
+		
 		em.getTransaction().commit();
 	}
 	

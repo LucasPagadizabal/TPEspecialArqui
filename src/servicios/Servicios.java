@@ -90,4 +90,15 @@ public class Servicios {
 		}
 		return result;
 	}
+	
+	public static void restaurarBD(EntityManager em) {
+		em.getTransaction( ).begin( );	
+		em.createQuery("DELETE FROM Usuario").executeUpdate();
+		em.createQuery("DELETE FROM Calendario").executeUpdate();
+		em.createQuery("DELETE FROM Reunion").executeUpdate();
+		em.createQuery("DELETE FROM Sala").executeUpdate();
+		em.createQuery("DELETE FROM Notificacion").executeUpdate();
+		em.getTransaction().commit();
+
+	}
 }

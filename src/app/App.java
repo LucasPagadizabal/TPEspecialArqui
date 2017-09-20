@@ -37,13 +37,11 @@ public class App {
 		Servicios.createCalendario("Familia", 6, em);
 		
 		Date r1I = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 12, 00).getTime();
-		Date r1F = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 14, 00).getTime();	
-		
+		Date r1F = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 14, 00).getTime();		
 		Servicios.createReunion(r1I, r1F, 1, 5, em);
 		
 		Date r2I = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 15, 00).getTime();
 		Date r2F = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19, 18, 00).getTime();	
-		
 		Servicios.createReunion(r2I,r2F, 1, 24, em);
 		
 //		C.I
@@ -62,7 +60,10 @@ public class App {
 //		List<Reunion> reuniones = new ArrayList<Reunion>();
 //		reuniones = Servicios.getReunionesSuperpuestas(4, newReunionInicio, newReunionFin, em);
 //		System.out.println(reuniones.toString());
-
+		
+//		G
+//		Servicios.restaurarBD(em);
+		
 		em.close();
 		emf.close();
 	}

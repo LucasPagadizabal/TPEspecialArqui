@@ -54,10 +54,6 @@ public class Reunion {
 			this.invitados = new ArrayList<Usuario>();
 	}
 	
-	public boolean mismoDia(Date day) {
-		return (this.fechaInicio.getYear() == day.getYear()) && (this.fechaInicio.getMonth() == day.getMonth()) && (this.fechaInicio.getDay() == day.getDay());
-	}
-	
 	public boolean superposicionHorarios(Date nuevaI,Date nuevaF) {
 		
 		if(nuevaF.compareTo(this.fechaInicio)<=0){

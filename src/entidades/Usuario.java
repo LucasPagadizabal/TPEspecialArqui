@@ -1,7 +1,6 @@
 package entidades;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
@@ -29,7 +28,7 @@ public class Usuario {
 	private String nombre;
 	private String apellido;
 	
-	//lista de calendarios propios
+	//lista de calendarios
 	@ManyToMany(cascade=CascadeType.PERSIST)
 	private List<Calendario>calendarios;
 	
@@ -64,15 +63,6 @@ public class Usuario {
 		return this.reunionesInvitado.add(reunion);
 	}
 	
-	public List<Reunion> getReunionesByDay(Date day){
-		List<Reunion> result = new ArrayList<Reunion>();
-		
-		for (int i = 0; i < this.calendarios.size(); i++) {
-			result.addAll(this.calendarios.get(i).getReunionesByDay(day));
-		}
-		
-		return result;
-	}
 	public boolean addReunionByCalendario(Reunion reunion, Calendario calendario) {
 		if(this.calendarios.contains(calendario)) {
 				return calendario.addReunion(reunion);

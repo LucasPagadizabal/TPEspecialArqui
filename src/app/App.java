@@ -65,11 +65,11 @@ public class App {
 		
 //		C.IV
 //		Date newReunionInicio = new GregorianCalendar(2017, Calendar.SEPTEMBER, 19,8,00).getTime();
-//		Date newReunionFin =  new GregorianCalendar(2017, Calendar.SEPTEMBER, 19,13,00).getTime();
+//		Date newReunionFin =  new GregorianCalendar(2017, Calendar.SEPTEMBER, 19,18,00).getTime();
 //		List<Reunion> reuniones = new ArrayList<Reunion>();
 //		reuniones = Servicios.getReunionesSuperpuestas(4, newReunionInicio, newReunionFin, em);
 //		System.out.println(reuniones.toString());
-		
+//		
 //		G
 //		Servicios.restaurarBD(em);
 		

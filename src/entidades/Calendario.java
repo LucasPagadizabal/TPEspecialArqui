@@ -52,18 +52,6 @@ public class Calendario {
 		return false;
 	}
 	
-	public List<Reunion>getReunionesByDay(Date day){
-		List<Reunion>result = new ArrayList<Reunion>();
-		
-		for (int i = 0; i < this.reuniones.size(); i++) {
-			if(this.reuniones.get(i).mismoDia(day)) {
-				result.add(this.reuniones.get(i));
-			}
-		}
-		
-		return result;
-	}
-	
 	public boolean removeReunion(Reunion reunion) {
 		return this.reuniones.remove(reunion);
 	}

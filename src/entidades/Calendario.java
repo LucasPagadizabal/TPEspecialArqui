@@ -5,10 +5,16 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
+import org.hibernate.annotations.NamedQuery;
+
+@NamedQuery( name= Calendario.BORRAR_DATOS ,query = "DELETE FROM Calendario c")
+
 @Entity
 @Table(name="Calendario")
 public class Calendario {
 
+	public static final String BORRAR_DATOS = "Calendario.borrarDatos";
+	
 	@Id
 	@GeneratedValue
 	private int id;
@@ -29,13 +35,15 @@ public class Calendario {
 	}
 	
 	public boolean addReunion(Reunion reunion) {
-		return this.reuniones.add(reunion);
+		if(!this.checkSuperPosicion(reunion.getFechaInicio(), reunion.getFechaFin())) {
+			return this.reuniones.add(reunion);
+		}
+		return false;
 	}
 	
 	public boolean checkSuperPosicion(Date fechaI, Date fechaF) {
 		if(this.reuniones.size()>0) {
 			for (int i = 0; i < this.reuniones.size(); i++) {
-				System.out.println("fi:"+fechaI+" ff:"+fechaF+" reunion:"+this.reuniones.get(i).getFechaInicio()+"-"+this.reuniones.get(i).getFechaFin());
 				if(this.reuniones.get(i).superposicionHorarios(fechaI, fechaF)) {
 					return true;
 				}

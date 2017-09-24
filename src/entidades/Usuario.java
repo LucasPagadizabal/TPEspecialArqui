@@ -12,11 +12,15 @@ import org.hibernate.annotations.NamedQuery;
 
 @NamedQuery(name= Usuario.BUSCAR_TODOS,query="SELECT u FROM Usuario u")
 @NamedQuery(name= Usuario.BUSCAR_USUARIO_BY_DNI,query = "SELECT u FROM Usuario u WHERE u.dni = ?1")
+@NamedQuery(name= Usuario.BORRAR_DATOS,query = "DELETE FROM Usuario u")
+
 
 public class Usuario {
 	
 	public static final String BUSCAR_TODOS = "Usuario.buscarTodos";
 	public static final String BUSCAR_USUARIO_BY_DNI = "Usuario.buscarUsuarioByDni";
+	public static final String BORRAR_DATOS = "Usuario.borrarDatos";
+
 	
 	@Id
 	@GeneratedValue
@@ -44,6 +48,20 @@ public class Usuario {
 		this.apellido = apellido;
 		this.calendarios = new ArrayList<Calendario>();
 		this.invitaciones = new ArrayList<Notificacion>();
+		this.reunionesInvitado = new ArrayList<Reunion>();
+	}
+	
+	public boolean existeInvitacion(Notificacion not) {
+		return this.invitaciones.contains(not);
+	}
+	
+	public boolean addInvitacion(Reunion reunion) {
+		for (int i = 0; i < this.calendarios.size(); i++) {//busca en todos sus calendario si se superpone con alguna reunion
+			if(this.calendarios.get(i).checkSuperPosicion(reunion.getFechaInicio(), reunion.getFechaFin())){
+				return false;
+			}
+		}
+		return this.reunionesInvitado.add(reunion);
 	}
 	
 	public List<Reunion> getReunionesByDay(Date day){

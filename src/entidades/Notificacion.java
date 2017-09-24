@@ -2,9 +2,16 @@ package entidades;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.NamedQuery;
+
+@NamedQuery( name= Notificacion.BORRAR_DATOS ,query = "DELETE FROM Notificacion n")
+
 @Entity
 @Table(name="Notificacion")
 public class Notificacion {
+	
+	public static final String BORRAR_DATOS = "Notificacion.borrarDatos";
+
 	
 	@Id
 	@GeneratedValue

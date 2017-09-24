@@ -30,7 +30,6 @@ public class Servicios {
 		em.getTransaction().commit();
 	}
 	
-//	al crear una reunion hay que chequear si no se superponen fechas
 	public static void createReunion(Date fechaInicio,Date fechaFin,int idSala,int idCalendario,EntityManager em) {
 		//las reuniones solo pueden pertenecer a un solo calendario??
 		
@@ -64,15 +63,12 @@ public class Servicios {
 	}
 	
 	public static List<Reunion> getReunionesByUserAndDay(int dni,Date day,EntityManager em) {
-		Query query = em.createNamedQuery(Reunion.BUSCAR_REUNIONES_BY_USER);
+		Query query = em.createNamedQuery(Reunion.BUSCAR_REUNIONES_BY_USER_DAY);
 		query.setParameter(1, dni);
+		query.setParameter(2, day);
+
 		List<Reunion> result = query.getResultList();
 		
-		for (int i = 0; i < result.size(); i++) {
-			if(!result.get(i).mismoDia(day)) {
-				result.remove(i);
-			}
-		}
 		return result;
 	}
 	
@@ -103,12 +99,39 @@ public class Servicios {
 	
 	public static void restaurarBD(EntityManager em) {
 		em.getTransaction( ).begin( );	
-		em.createQuery("DELETE FROM Usuario").executeUpdate();
-		em.createQuery("DELETE FROM Calendario").executeUpdate();
-		em.createQuery("DELETE FROM Reunion").executeUpdate();
-		em.createQuery("DELETE FROM Sala").executeUpdate();
-		em.createQuery("DELETE FROM Notificacion").executeUpdate();
+		em.createNamedQuery(Usuario.BORRAR_DATOS).executeUpdate();
+		em.createNamedQuery(Calendario.BORRAR_DATOS).executeUpdate();
+		em.createNamedQuery(Reunion.BORRAR_DATOS).executeUpdate();
+		em.createNamedQuery(Sala.BORRAR_DATOS).executeUpdate();
+		em.createNamedQuery(Notificacion.BORRAR_DATOS).executeUpdate();
 		em.getTransaction().commit();
-
 	}
+	
+	public static void addInvitado(int dni,int id_reunion,EntityManager em) {
+		em.getTransaction( ).begin( );
+		Usuario user = em.find(Usuario.class, dni);
+		Reunion reunion = em.find(Reunion.class, id_reunion);
+		Notificacion noti = new Notificacion(user,reunion);
+		user.addNotificacion(noti);
+		reunion.addInvitado(user);
+		em.persist(noti);
+		em.persist(user);
+		em.persist(reunion);
+		em.getTransaction().commit();
+	}
+	
+	public static void aceptarInvitacion(int dni, int id_noti,EntityManager em) {
+		em.getTransaction( ).begin( );
+		Usuario user = em.find(Usuario.class, dni);
+		Notificacion noti = em.find(Notificacion.class, id_noti);
+		
+		if(user.existeInvitacion(noti)) {
+			user.addInvitacion(noti.getReunion());
+			em.remove(noti);
+			em.persist(user);
+			em.flush();
+		}
+		em.getTransaction().commit();
+	}
+	
 }

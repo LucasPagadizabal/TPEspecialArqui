@@ -6,10 +6,14 @@ import java.util.List;
 
 import javax.persistence.*;
 
+@NamedQuery(name=Sala.BORRAR_DATOS ,query ="DELETE FROM Sala s")
+
 @Entity
 @Table(name="Sala")
 public class Sala {
 
+	public static final String BORRAR_DATOS= "Sala.borrarDatos";
+	
 	@Id
 	@GeneratedValue
 	private int id;

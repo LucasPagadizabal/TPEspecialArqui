@@ -46,6 +46,7 @@ public class App {
 		
 		Servicios.addInvitado(6, 27, em);
 		Servicios.aceptarInvitacion(6, 29, em);
+		Servicios.compartirCalendario(5, 22, em);
 //		C.I
 //		System.out.println(Servicios.getUserByDni(4, em).toString());
 		

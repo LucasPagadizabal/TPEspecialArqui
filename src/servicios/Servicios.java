@@ -150,11 +150,17 @@ public class Servicios {
 
 		Usuario user = em.find(Usuario.class, dni_invitado);
 		Calendario calendario = em.find(Calendario.class, id_calendario);
-		if(user != null) {
+		if(user != null && calendario !=null) {
 			user.addCalendario(calendario);
 			em.persist(user);
+			em.persist(calendario);
 		}
 
 		em.getTransaction().commit();
+	}
+	
+	public static List<Reunion> getAllReuniones(int id_reunion , EntityManager em){
+		Query query = em.createNamedQuery(Reunion.BUSCAR_REUNIONES);
+		return query.getResultList();
 	}
 }

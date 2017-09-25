@@ -11,15 +11,17 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @Table(name="Reunion")
 
+@NamedQuery(name=Reunion.BUSCAR_REUNIONES,query="SELECT r FROM Reunion r")
 @NamedQuery(name=Reunion.BUSCAR_REUNIONES_BY_USER,query="SELECT r FROM Reunion r JOIN r.calendario.duenio user WHERE user.dni =?1")
 @NamedQuery(name=Reunion.BUSCAR_REUNIONES_BY_USER_DAY,query="SELECT r FROM Reunion r JOIN r.calendario.duenio user WHERE user.dni =?1 AND day(r.fechaInicio) = day(?2)")
 @NamedQuery(name=Reunion.BUSCAR_REUNIONES_BETWEEN_DATES,query="SELECT r FROM Reunion r WHERE r.fechaInicio BETWEEN ?1 AND ?2")
-//@NamedQuery(name = Reunion.BUSCAR_REUNIONES_SUPERPUESTAS, query ="SELECT r  FROM Reunion r JOIN r.calendario.duenio user WHERE user.dni =?1 AND (?2 BETWEEN r.fechaInicio AND r.fechaFin) OR (?3 BETWEEN r.fechaInicio AND r.fechaFin)")
+//@NamedQuery(name = Reunion.BUSCAR_REUNIONES_SUPERPUESTAS, query ="SELECT r  FROM Reunion r JOIN r.calendario.duenio user WHERE user.dni =?1 AND ?2 <=r.fechaFin AND ?3 >= r.fechaInicio")
 @NamedQuery(name=Reunion.BORRAR_DATOS,query="DELETE FROM Reunion r")
 
 
 public class Reunion {
 	
+	public static final String BUSCAR_REUNIONES = "Reunion.BuscarReuniones";
 	public static final String BUSCAR_REUNIONES_BY_USER = "Reunion.BuscarReunionesByUser";
 	public static final String BUSCAR_REUNIONES_BY_USER_DAY = "Reunion.BuscarReunionesByUserDay";
 	public static final String BUSCAR_REUNIONES_BETWEEN_DATES = "Reunion.BuscarReunionesBetweenDates";
